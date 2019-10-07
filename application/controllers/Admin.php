@@ -18,4 +18,25 @@ class Admin extends CI_Controller {
 	{
 		$this->load->view('welcome_message');
 	}
+
+	public function Usuarios()
+    {
+        $this->load->model("ModUsers");
+        $data["empleados"] = $this->ModUsers->getEmpleados();
+        $data["tipo"] = $this->ModUsers->getTipoUsuario();
+        $this->load->view('UsuariosView', $data);
+    }
+
+    public function Productos()
+    {
+        $view = 'ProductosModel';
+        if(file_exists(APPPATH."models/$view.php")){
+            $this->load->view($view);
+            //$this->my_model->my_fcn($prams);
+        }
+        else{
+            echo "Error";
+            // model doesn't exist
+        }
+    }
 }

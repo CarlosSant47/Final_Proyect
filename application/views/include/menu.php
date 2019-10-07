@@ -63,7 +63,7 @@ $usuario = $this->session->userdata('userContent');?>
             <?php
             $html = '';
             foreach ($menu as $item) {
-                $html .= '<li><a href="' . $item["ruta"] . '"><i class="' . $item["icon"] . '"></i> <span>' . $item["nombre"] . '</span></a></li>';
+                $html .= '<li><a href="'.base_url($item["ruta"]).'"><i class="' . $item["icon"] . '"></i> <span>' . $item["nombre"] . '</span></a></li>';
             }
             echo $html;
             ?>
