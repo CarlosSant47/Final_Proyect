@@ -1,8 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Usuarios extends CI_Controller
+class Modulos extends CI_Controller
 {
+
     public function __construct()
     {
         parent::__construct();
@@ -11,19 +12,19 @@ class Usuarios extends CI_Controller
             redirect(base_url("index.php/Login"));
             die();
         }
-        $this->load->model("ModUsers");
+        $this->load->model("ModModulos");
 
     }
-
-    public function consultUsuarios()
+    public function consultModulos()
     {
-        echo json_encode($this->ModUsers->getUsuarios());
+        echo json_encode($this->ModModulos->getIcons());
     }
 
-    public function addUser()
+    private function insertModulos()
     {
-        echo json_encode($this->ModUsers->createUser());
+
     }
+
 
 
 }

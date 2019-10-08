@@ -16,7 +16,7 @@
         <div class="content">
             <div class="row">
                 <div class="col-sm-12">
-                    <h2>Usuarios</h2>
+                    <h2>Modulos</h2>
                 </div>
             </div>
             <div class="row">
@@ -28,7 +28,7 @@
                 <div class="col-sm-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Lista de Usuarios en el Sistema</h3>
+                            <h3 class="box-title">Modulos del Sistema</h3>
 
                             <div class="box-tools">
                                 <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
@@ -82,7 +82,6 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Seleciona el Tipo de Usuario</label>
-
                                     <select class="form-control" name="tipo">
                                         <?php foreach ($tipo as $key)
                                         {
@@ -91,15 +90,18 @@
                                         ?>
                                     </select>
                                 </div>
-                                <div class="form-group">
-                                    <label>Seleciona el Empleado</label>
-                                    <select class="form-control" name="empleado">
-                                        <?php foreach ($empleados as $key)
-                                        {
-                                            echo '<option value="'.$key["id"].'">'.$key["nombre"].'</option>';
-                                        }
-                                        ?>
-                                    </select>
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        Dropdown
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li><a href="#">Action</a></li>
+                                        <li><a href="#">Another action</a></li>
+                                        <li><a href="#">Something else here</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#">Separated link</a></li>
+                                    </ul>
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputFile">Seleciona una Foto de Perfil</label>
@@ -128,8 +130,8 @@
     let form;
 
     function main() {
-        consultUsuarios();
-        form =  document.getElementById("formUsuarios");
+        //consultUsuarios();
+        //form =  document.getElementById("formUsuarios");
     }
 
     function consultUsuarios() {

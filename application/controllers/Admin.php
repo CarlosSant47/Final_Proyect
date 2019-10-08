@@ -27,6 +27,16 @@ class Admin extends CI_Controller {
         $this->load->view('UsuariosView', $data);
     }
 
+
+    public function Modulos()
+    {
+        $this->load->model("ModUsers");
+        $this->load->model("ModModulos");
+        $data["tipo"] = $this->ModUsers->getTipoUsuario();
+        $data['icons'] =
+        $this->load->view('ViewModulos', $data);
+    }
+
     public function Productos()
     {
         $view = 'ProductosModel';
