@@ -8,9 +8,31 @@ class ModEmployes extends CI_Model
         return "employes";
     }
 
-    public function insertEmpleado($data = null)
+    public function insertEmpleado($data)
     {
+        $this->db->insert('employes',$data);
+        if($this->db->affected_rows() > 0)
+            return true;
+        else
+            return false;
+    }
 
+    public function createEmpleado($data = null)
+    {
+            $data;
+            $userData = array(
+                "nombre" => $this->input->post("nombre"),
+                "apellidop" => $this->input->post("paterno"),
+                'apellidom' => $this->input->post("materno"));
+            if($this->insertEmpleado($userData))
+            {
+                $data['insertStatus'] = true;
+            }
+            else{
+                $data['insertStatus'] = false;
+            }
+
+            return $data;
     }
 
     public function getEmpleados($indexSearch)

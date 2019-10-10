@@ -21,9 +21,9 @@ class Empleados extends CI_Controller
         echo json_encode($this->ModEmployes->getEmpleados(""));
     }
 
-    private function insertEmpleados()
+    public function addEmpleado()
     {
-
+        echo json_encode($this->ModEmployes->createEmpleado());
     }
 
     private function updateEmpleados()

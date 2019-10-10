@@ -33,7 +33,7 @@ class Admin extends CI_Controller {
         $this->load->model("ModUsers");
         $this->load->model("ModModulos");
         $data["tipo"] = $this->ModUsers->getTipoUsuario();
-        $data['icons'] =
+        $data['icons'] = $this->ModModulos->getIcons();
         $this->load->view('ViewModulos', $data);
     }
 
@@ -48,5 +48,21 @@ class Admin extends CI_Controller {
             echo "Error";
             // model doesn't exist
         }
+    }
+
+    public function Empleados()
+    {
+        $this->load->view("ViewEmpleados");
+        /*
+        $view = 'ViewEmpleados';
+        if(file_exists(APPPATH."models/$view.php")){
+            $this->load->view($view);
+            //$this->my_model->my_fcn($prams);
+        }
+        else{
+            echo "Error";
+            // model doesn't exist
+        }
+        */
     }
 }

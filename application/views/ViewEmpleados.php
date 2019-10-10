@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Dashboard</title>
+    <title>Empleado</title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
     <?php $this->load->view('include/header.php'); ?>
@@ -16,19 +16,19 @@
         <div class="content">
             <div class="row">
                 <div class="col-sm-12">
-                    <h2>Usuarios</h2>
+                    <h2>Empleados</h2>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6" style="margin-bottom: 15px">
                 </div>
                 <div class="col-md-6" style="margin-bottom: 15px">
-                    <button class="btn  btn-default" data-toggle="modal" data-target="#modal-agregar" style="float: right">Agregar Usuario</button>
+                    <button class="btn  btn-default" data-toggle="modal" data-target="#modal-agregar" style="float: right">Agregar Empleado</button>
                 </div>
                 <div class="col-sm-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Lista de Usuarios en el Sistema</h3>
+                            <h3 class="box-title">Lista de Empleados</h3>
 
                             <div class="box-tools">
                                 <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
@@ -47,11 +47,10 @@
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>ID</th>
-                                    <th>Usuario</th>
-                                    <th>Empleado</th>
-                                    <th>Tipo Usuario</th>
-                                    <th>Estado</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido Paterno</th>
+                                    <th>Apellido Materno</th>
+                                    
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -68,43 +67,21 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title">Usuarios</h4>
+                            <h4 class="modal-title">Empleados</h4>
                         </div>
                         <div class="modal-body">
                             <form  enctype="multipart/form-data" method="POST" id="formUsuarios">
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Usuario</label>
-                                    <input type="text" class="form-control" id="txtUsuario" placeholder="Introduce el Usuario" maxlength="20" name="usuario">
+                                    <label for="exampleInputEmail1">Nombre</label>
+                                    <input type="text" class="form-control" id="txtUsuario" placeholder="Introduce el Nombre" maxlength="20" name="nombre">
                                 </div>
                                 <div class="form-group">
-                                    <label for="exampleInputEmail1">Contraseña</label>
-                                    <input type="password" class="form-control" id="txtContraseña" placeholder="Introduce la contraseña" maxlength="20" name="contrasena">
+                                    <label for="exampleInputEmail1">Apellido Paterno</label>
+                                    <input type="text" class="form-control" id="txtContraseña" placeholder="Introduce el Apellido Paterno" maxlength="20" name="paterno">
                                 </div>
                                 <div class="form-group">
-                                    <label>Seleciona el Tipo de Usuario</label>
-
-                                    <select class="form-control" name="tipo">
-                                        <?php foreach ($tipo as $key)
-                                        {
-                                            echo '<option value="'.$key["id"].'">'.$key["tpnombre"].'</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Seleciona el Empleado</label>
-                                    <select class="form-control" name="empleado">
-                                        <?php foreach ($empleados as $key)
-                                        {
-                                            echo '<option value="'.$key["id"].'">'.$key["nombre"].'</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputFile">Seleciona una Foto de Perfil</label>
-                                    <input type="file" id="exampleInputFile" name="fotoperfil" accept=".jpg, .png, .jpeg, .gif, .bmp, .tif, .tiff|image/*">
-                                    <p class="help-block">Los archivos no puedne pesar mas de 1MB y tienen que esta en formato PNG o JPG</p>
+                                    <label for="exampleInputEmail1">Apellido Materno</label>
+                                    <input type="text" class="form-control" id="txtContraseña" placeholder="Introduce el Apellido Materno" maxlength="20" name="materno">
                                 </div>
                             </form>
 
@@ -128,13 +105,13 @@
     let form;
 
     function main() {
-        consultUsuarios();
+        consultEmpleados();
         form =  document.getElementById("formUsuarios");
     }
 
-    function consultUsuarios() {
+    function consultEmpleados() {
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '<?= base_url('index.php/Usuarios/consultUsuarios')?>');
+        xhr.open('POST', '<?= base_url('index.php/Empleados/consultEmpleados')?>');
         xhr.send();
         xhr.overrideMimeType("application/json");
         xhr.onload = function () {
@@ -151,12 +128,11 @@
     function generateTable(data) {
         var html = "";
         data.forEach(function (index) {
-            html += `<tr><td><center><img src="${index['imgUser']}" class="img-circle" alt="User Image" width="24px"></center></td>`;//IMAGEN
-            html += `<td>${index['idUsuario']}</td>`;//ID
-            html += `<td>${index['usuario']}</td>`;//USER NAME
-            html += `<td>${index['nombre']}</td>`;//NOMBRE DLE USUARIO
-            html += `<td>${index['tipo']}</td>`;//TIPO DE USUARIO
-            html += `<td><span class="label label-success">${index['estado']}</span></td></tr>`//ESTADO DEL USUARIO
+            
+            html += `<td>${index['idEmpleado']}</td>`;//ID
+            html += `<td>${index['nombre']}</td>`;//USER NAME
+            html += `<td>${index['paterno']}</td>`;//NOMBRE DLE USUARIO
+            html += `<td>${index['materno']}</td></tr>`;//TIPO DE USUARIO
         });
         document.getElementById("tbData").tBodies.item(0).innerHTML = html;
 
@@ -167,15 +143,21 @@
     {
         var data = new FormData(form);
         let xhr = new XMLHttpRequest();
-        xhr.open('POST', '<?= base_url('index.php/Usuarios/addUser')?>');
+        xhr.open('POST', '<?= base_url('index.php/Empleados/addEmpleado')?>');
         xhr.send(data);
         xhr.overrideMimeType("application/json");
         xhr.onload = function () {
             if (xhr.status != 200) {
                 alert(`Error ${xhr.status}: ${xhr.statusText}`);
             } else {
-
                 console.log(xhr.response);
+                data = JSON.parse(xhr.response);
+                if(data['insertStatus'])
+                {
+                    alert("Se agrego con exito");
+                    consultEmpleados();
+                }
+                
 
             }
         };

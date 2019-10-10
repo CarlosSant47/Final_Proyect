@@ -17,6 +17,11 @@ class Modulos extends CI_Controller
     }
     public function consultModulos()
     {
+        echo json_encode($this->ModModulos->getModulos());
+    }
+
+    public function consultIcons()
+    {
         echo json_encode($this->ModModulos->getIcons());
     }
 
