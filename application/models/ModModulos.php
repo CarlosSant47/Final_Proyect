@@ -6,7 +6,7 @@ class ModModulos extends CI_Model
 
     public function getModulos()
     {
-        $this->db->select("id AS idModulo, nombre, icon AS icono, ruta");
+        $this->db->select("id AS idModulo, nombre, icon AS icono, ruta, IF(STATUS = 1, 'Activo', 'Inactivo') AS estado", false);
         $consulta = $this->db->get($this->getTable());
         return $consulta->result_array();
     }
