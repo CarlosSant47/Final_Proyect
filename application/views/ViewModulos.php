@@ -75,52 +75,35 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Modulo</label>
                                             <input type="text" class="form-control" placeholder="Introduce el Modulo"
-                                                   maxlength="20" name="usuario">
+                                                   maxlength="20" name="nombreModulo">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Seleciona un icono</label>
-                                            <select class="form-control select2" style="width: 100%;">
+                                            <label>Selesciona un icono</label>
+                                            <select class="form-control select2" style="width: 100%;" name="icono">
                                                 <?php foreach ($icons as $key) {
                                                     echo "<option>$key</option>";
                                                 } ?>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <span class="label label-primary"><i class="fa fa-500px"></i></span>
-                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Seleciona el Tipo de Usuario</label>
-                                    <select class="form-control" name="tipo">
-                                        <?php foreach ($tipo as $key) {
-                                            echo '<option value="' . $key["id"] . '">' . $key["tpnombre"] . '</option>';
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-
-
-                                <div class="form-group">
-
-                                    <div class="col-10">
+                                <div class="row">
+                                    <div class="col-md-12">
                                         <div class="form-group">
-                                            <label>Seleciona un icono</label>
-                                            <select class="form-control select2" style="width: 100%;">
-
-                                                <?php foreach ($icons as $key) {
-                                                    echo "<option>$key</option>";
-                                                } ?>
-                                            </select>
+                                            <label for="exampleInputEmail1">Ruta de Acceso</label>
+                                            <input type="text" class="form-control" placeholder="Introduce la ruta"
+                                                   maxlength="20" name="ruta">
                                         </div>
                                     </div>
-
-
                                 </div>
+                                
+
+
+                                
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -143,30 +126,42 @@
 
     function main() {
         $('.select2').select2();
-        consultModulos();
+        consultModulos("", 1);
         //form =  document.getElementById("formUsuarios");
     }
 
-    function consultModulos() {
+    function consultModulos(indexSearch, mode) {
+
+        data = new FormData();
+        data.append('search', indexSearch);
+        data.append('mode', mode);
         let xhr = new XMLHttpRequest();
         xhr.open('POST', '<?= base_url('index.php/Modulos/consultModulos')?>');
-        xhr.send();
+        xhr.send(data);
         xhr.overrideMimeType("application/json");
         xhr.onload = function () {
             if (xhr.status != 200) {
                 alert(`Error ${xhr.status}: ${xhr.statusText}`);
             } else {
                 console.log(xhr.response);
-                generateTable(JSON.parse(xhr.response));
+                if(mode == 1)//ES PARA GENERAR LA TABLA
+                    generateTable(JSON.parse(xhr.response));
+                else
+                    showInformationModal(JSON.parse(xhr.response));
             }
         };
     }
 
+    function showInformationModal(data){
+
+    }
+
     function generateTable(data) {
+        $modalFunction = "data-toggle='modal' data-target='#modal-agregar'";
         var html = "";
         data.forEach(function (index) {
-            html += `<tr>`;//IMAGEN
-            html += `<td>${index['idModulo']}</td>`;//ID
+            html += `<tr onclick='consultModulos(${index['idModulo']}, 2) ${modalFunction}'>`;//IMAGEN
+            html += `<td></td>`;//ID
             html += `<td>${index['nombre']}</td>`;//USER NAME
             html += `<td><i class="${index['icono']}"></i></td>`;//NOMBRE DLE USUARIO
             html += `<td>${index['ruta']}</td>`;//TIPO DE USUARIO

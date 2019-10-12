@@ -17,7 +17,19 @@ class Modulos extends CI_Controller
     }
     public function consultModulos()
     {
-        echo json_encode($this->ModModulos->getModulos());
+        
+        $mode = $this->input->post('mode');
+        $moderesult = ((isset($mode)) ? $mode : 1);
+        if($moderesult == 2)
+        {
+            $buscar= $this->input->post('search');
+            echo json_encode($this->ModModulos->getModuloByID($buscar));
+        }
+        else
+        {
+            echo json_encode($this->ModModulos->getModulos());
+        }
+        
     }
 
     public function consultIcons()
@@ -27,7 +39,7 @@ class Modulos extends CI_Controller
 
     private function insertModulos()
     {
-
+        echo json_encode($this->ModModulos->createModulo(1));
     }
 
 
