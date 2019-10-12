@@ -63,6 +63,7 @@ class ModModulos extends CI_Model
                 break;
             case 2:
                 $result['statusInsert'] = $this->updateModulo($this->input->post("idModulo"), $data);
+                break;
             default:
                 $result['statusInsert'] = $this->insertModulo($data);
                 break;

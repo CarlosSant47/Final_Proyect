@@ -37,7 +37,7 @@ class Modulos extends CI_Controller
         echo json_encode($this->ModModulos->getIcons());
     }
 
-    private function insertModulos()
+    public function insertModulos()
     {
         echo json_encode($this->ModModulos->createModulo(1));
     }

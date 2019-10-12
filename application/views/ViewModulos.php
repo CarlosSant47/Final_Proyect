@@ -22,7 +22,7 @@
                 </div>
                 <div class="col-md-6" style="margin-bottom: 15px">
                     <button class="btn  btn-default" data-toggle="modal" data-target="#modal-agregar"
-                            style="float: right">Agregar Usuario
+                            style="float: right" onclick="document.getElementById('btnSave').value = 1;">Agregar Usuario
                     </button>
                 </div>
                 <div class="col-sm-12">
@@ -62,13 +62,13 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="document.getElementById('formModulos').reset()">
                                 <span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Usuarios</h4>
                         </div>
                         <div class="modal-body">
 
-                            <form enctype="multipart/form-data" method="POST" id="formUsuarios">
+                            <form enctype="multipart/form-data" method="POST" id="formModulos">
 
                                 <div class="row">
                                     <div class="col-md-12">
@@ -83,9 +83,9 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Selesciona un icono</label>
-                                            <select class="form-control select2" style="width: 100%;" name="icono">
+                                            <select id="cmbIcon" class="form-control select2" style="width: 100%;" name="icono">
                                                 <?php foreach ($icons as $key) {
-                                                    echo "<option>$key</option>";
+                                                    echo "<option value='fa $key'>$key</option>";
                                                 } ?>
                                             </select>
                                         </div>
@@ -100,15 +100,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-
-
-                                
+                                <input value="" style="display: none" name="idModulo">
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="btnSave" onclick="btnGuardarAction()">
+                            <button type="button" class="btn btn-primary" id="btnSave" value="1"
+                                    onclick="insertModulo($('#btnSave').val())">
                                 Guardar Cambios
                             </button>
                         </div>
@@ -130,6 +128,33 @@
         //form =  document.getElementById("formUsuarios");
     }
 
+    function insertModulo(mode)//ESTE METODO LA HACE DE DOS INSERA Y ACTUALIZA
+    {
+        data = new FormData(form);
+        data.append('mode', mode);
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '<?= base_url('index.php/Modulos/insertModulos')?>');
+        xhr.send(data);
+        xhr.overrideMimeType("application/json");
+        xhr.onload = function () {
+            if (xhr.status != 200) {
+                alert(`Error ${xhr.status}: ${xhr.statusText}`);
+            } else {
+                console.log(xhr.response);
+                var result = JSON.parse(xhr.response);
+                if(result['statusInsert'])
+                {
+                    alert("La operacion se realizo con exito");
+                    consultModulos("", 1);
+                }
+                else{
+                    alert("Se produjo un error");
+
+                }
+            }
+        };
+    }
+
     function consultModulos(indexSearch, mode) {
 
         data = new FormData();
@@ -144,7 +169,7 @@
                 alert(`Error ${xhr.status}: ${xhr.statusText}`);
             } else {
                 console.log(xhr.response);
-                if(mode == 1)//ES PARA GENERAR LA TABLA
+                if(mode === 1)//ES PARA GENERAR LA TABLA
                     generateTable(JSON.parse(xhr.response));
                 else
                     showInformationModal(JSON.parse(xhr.response));
@@ -153,14 +178,18 @@
     }
 
     function showInformationModal(data){
-
+        document.getElementById("formModulos").elements['nombreModulo'].value = data[0]['nombre'];
+        //document.getElementById("formModulos").elements['nombreModulo'] = data[0]['nombre'];
+        document.getElementById("formModulos").elements['ruta'].value = data[0]['ruta'];
+        document.getElementById("formModulos").elements['idModulo'].value = data[0]['idModulo'];
+        document.getElementById("btnSave").value = 2;
     }
 
     function generateTable(data) {
-        $modalFunction = "data-toggle='modal' data-target='#modal-agregar'";
+        var modalFunction = "data-toggle='modal' data-target='#modal-agregar'";
         var html = "";
         data.forEach(function (index) {
-            html += `<tr onclick='consultModulos(${index['idModulo']}, 2) ${modalFunction}'>`;//IMAGEN
+            html += `<tr onclick='consultModulos(${index['idModulo']}, 2)' ${modalFunction}'>`;//IMAGEN
             html += `<td></td>`;//ID
             html += `<td>${index['nombre']}</td>`;//USER NAME
             html += `<td><i class="${index['icono']}"></i></td>`;//NOMBRE DLE USUARIO
@@ -168,21 +197,6 @@
             html += `<td><span class="label label-success">${index['estado']}</span></td></tr>`//ESTADO DEL USUARIO
         });
         document.getElementById("tbData").tBodies.item(0).innerHTML = html;
-    }
-
-    function btnGuardarAction() {
-        var data = new FormData(form);
-        let xhr = new XMLHttpRequest();
-        xhr.open('POST', '<?= base_url('index.php/Usuarios/addUser')?>');
-        xhr.send(data);
-        xhr.overrideMimeType("application/json");
-        xhr.onload = function () {
-            if (xhr.status != 200) {
-                alert(`Error ${xhr.status}: ${xhr.statusText}`);
-            } else {
-                console.log(xhr.response);
-            }
-        };
     }
 </script>
 </body>
