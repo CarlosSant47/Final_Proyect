@@ -50,6 +50,7 @@ class ModLogin extends CI_Model
         $this->db->select("modulos.`nombre`, modulos.`ruta`, modulos.`icon`");
         $this->db->join("tipomodulo", " modulos.`id` = tipomodulo.`modulo`");
         $this->db->where("tipomodulo.`tipousuario", $tipoUsuario);
+        $this->db->where("tipomodulo.`status", 1);
         $query = $this->db->get("modulos");
         return $query->result_array();
     }

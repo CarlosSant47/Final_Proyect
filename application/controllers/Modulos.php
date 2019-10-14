@@ -39,7 +39,7 @@ class Modulos extends CI_Controller
 
     public function insertModulos()
     {
-        echo json_encode($this->ModModulos->createModulo(1));
+        echo json_encode($this->ModModulos->createModulo($this->input->post("mode")));
     }
 
 

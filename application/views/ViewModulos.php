@@ -25,44 +25,66 @@
                             style="float: right" onclick="document.getElementById('btnSave').value = 1;">Agregar Usuario
                     </button>
                 </div>
-                <div class="col-sm-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Modulos del Sistema</h3>
-                            <div class="box-tools">
-                                <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
-                                    <input type="text" name="table_search" class="form-control pull-right"
-                                           placeholder="Search">
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i>
-                                        </button>
+                <div class="col-md-12">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#modulos" data-toggle="tab" aria-expanded="true">Modulos</a>
+                            </li>
+                            <li class=""><a href="#tipo" data-toggle="tab" aria-expanded="false">Tipos de Usuario</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="modulos">
+                                <div class="box">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Modulos del Sistema</h3>
+                                        <div class="box-tools">
+                                            <div class="input-group input-group-sm hidden-xs" style="width: 150px;">
+                                                <input type="text" name="table_search" class="form-control pull-right"
+                                                       placeholder="Search">
+                                                <div class="input-group-btn">
+                                                    <button type="submit" class="btn btn-default"><i
+                                                                class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body table-responsive no-padding">
+                                        <table class="table table-hover" id="tbData">
+                                            <thead>
+                                            <tr>
+                                                <th></th>
+                                                <th>Modulo</th>
+                                                <th>Icono</th>
+                                                <th>Ruta</th>
+                                                <th>Estado</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
+
+                            </div>
+                            <!-- /.tab-pane -->
+                            <div class="tab-pane" id="tipo">
+                                <!-- The timeline -->
+
                             </div>
                         </div>
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table table-hover" id="tbData">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Modulo</th>
-                                    <th>Icono</th>
-                                    <th>Ruta</th>
-                                    <th>Estado</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
-                        </div>
+                        <!-- /.tab-content -->
                     </div>
                 </div>
+
+
             </div>
             <div class="modal fade" id="modal-agregar">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="document.getElementById('formModulos').reset()">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                    onclick="document.getElementById('formModulos').reset()">
                                 <span aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title">Usuarios</h4>
                         </div>
@@ -83,7 +105,8 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Selesciona un icono</label>
-                                            <select id="cmbIcon" class="form-control select2" style="width: 100%;" name="icono">
+                                            <select id="cmbIcon" class="form-control select2" style="width: 100%;"
+                                                    name="icono">
                                                 <?php foreach ($icons as $key) {
                                                     echo "<option value='fa $key'>$key</option>";
                                                 } ?>
@@ -96,7 +119,7 @@
                                         <div class="form-group">
                                             <label for="exampleInputEmail1">Ruta de Acceso</label>
                                             <input type="text" class="form-control" placeholder="Introduce la ruta"
-                                                   maxlength="20" name="ruta">
+                                                   maxlength="80" name="ruta">
                                         </div>
                                     </div>
                                 </div>
@@ -130,7 +153,7 @@
 
     function insertModulo(mode)//ESTE METODO LA HACE DE DOS INSERA Y ACTUALIZA
     {
-        data = new FormData(form);
+        data = new FormData(document.forms['formModulos']);
         data.append('mode', mode);
         let xhr = new XMLHttpRequest();
         xhr.open('POST', '<?= base_url('index.php/Modulos/insertModulos')?>');
@@ -142,12 +165,11 @@
             } else {
                 console.log(xhr.response);
                 var result = JSON.parse(xhr.response);
-                if(result['statusInsert'])
-                {
+                if (result['statusInsert']) {
                     alert("La operacion se realizo con exito");
                     consultModulos("", 1);
                 }
-                else{
+                else {
                     alert("Se produjo un error");
 
                 }
@@ -169,7 +191,7 @@
                 alert(`Error ${xhr.status}: ${xhr.statusText}`);
             } else {
                 console.log(xhr.response);
-                if(mode === 1)//ES PARA GENERAR LA TABLA
+                if (mode === 1)//ES PARA GENERAR LA TABLA
                     generateTable(JSON.parse(xhr.response));
                 else
                     showInformationModal(JSON.parse(xhr.response));
@@ -177,7 +199,7 @@
         };
     }
 
-    function showInformationModal(data){
+    function showInformationModal(data) {
         document.getElementById("formModulos").elements['nombreModulo'].value = data[0]['nombre'];
         //document.getElementById("formModulos").elements['nombreModulo'] = data[0]['nombre'];
         document.getElementById("formModulos").elements['ruta'].value = data[0]['ruta'];

@@ -13,4 +13,15 @@ class Principal extends CI_Controller
     {
         $this->load->view("principal/ViewPrincipal");
     }
+
+    public function Producto()
+    {
+        $this->load->view("principal/ViewPricipalProducto");
+    }
+
+    public function Productos()
+    {
+        $this->load->view("principal/ViewPrincipalProductos");
+    }
+
 }

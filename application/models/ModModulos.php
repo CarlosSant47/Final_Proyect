@@ -29,14 +29,34 @@ class ModModulos extends CI_Model
         return $obj;
     }
 
+    private function insertSecureId($idModulo)
+    {
+        $query = $this->db->query("SELECT generateSecureID($idModulo) as secureid");
+        $data = array("secure_id" => $query->row()->secureid);
+        $this->updateModulo($idModulo, $data);
+    }
+
+            
+
+
 
     private function insertModulo($data)
     {
         $this->db->insert('modulos',$data);
-        if($this->db->affected_rows() > 0)
+        if($this->db->affected_rows() > 0) {
+            $this->insertSecureId($this->db->insert_id());
             return true;
+        }
         else
             return false;
+    }
+
+    private function getIDbySecureID($secureID)
+    {
+        $this->db->select("id AS idModulo", false);
+        $this->db->where('secure_id', $secureID);
+        $consulta = $this->db->get($this->getTable());
+        return $consulta->result_array();
     }
 
     private function updateModulo($id, $data)
@@ -47,24 +67,27 @@ class ModModulos extends CI_Model
             return true;
         else
             return false;
-
     }
+
+
 
     public function createModulo($mode)
     {
         $result = array();
-        $data['nombre'] = $this->input->post("nombreModulo");
-        $data['icon'] = $this->input->post("icono");
-        $data['ruta'] = $this->input->post("ruta");
-
-        switch ($mode) {
+        $data = array(
+            'nombre'=> $this->input->post("nombreModulo"),
+            'icon' => $this->input->post("icono"),
+            'ruta' => $this->input->post("ruta"));
+        switch ((int) $mode) {
             case 1:
                 $result['statusInsert'] = $this->insertModulo($data);
                 break;
             case 2:
-                $result['statusInsert'] = $this->updateModulo($this->input->post("idModulo"), $data);
+                $id = $this->getIDbySecureID($this->input->post("idModulo"));
+                $result['statusInsert'] = $this->updateModulo($id[0]['idModulo'], $data);
                 break;
             default:
+
                 $result['statusInsert'] = $this->insertModulo($data);
                 break;
         }

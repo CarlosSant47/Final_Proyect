@@ -39,15 +39,7 @@ class Admin extends CI_Controller {
 
     public function Productos()
     {
-        $view = 'ProductosModel';
-        if(file_exists(APPPATH."models/$view.php")){
-            $this->load->view($view);
-            //$this->my_model->my_fcn($prams);
-        }
-        else{
-            echo "Error";
-            // model doesn't exist
-        }
+        redirect(base_url("index.php/Productos"));
     }
 
     public function Empleados()
