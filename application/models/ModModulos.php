@@ -51,7 +51,7 @@ class ModModulos extends CI_Model
             return false;
     }
 
-    private function getIDbySecureID($secureID)
+    public function getIDbySecureID($secureID)
     {
         $this->db->select("id AS idModulo", false);
         $this->db->where('secure_id', $secureID);

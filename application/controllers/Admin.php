@@ -16,7 +16,9 @@ class Admin extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('welcome_message');
+        $this->load->model('ModPrincipal');
+        $data['principal'] = $this->ModPrincipal->showPrincipalParts();
+		$this->load->view('welcome_message', $data);
 	}
 
 	public function Usuarios()
@@ -56,5 +58,11 @@ class Admin extends CI_Controller {
             // model doesn't exist
         }
         */
+    }
+
+    public function updatePrincipal()
+    {
+        $this->load->model('ModPrincipal');
+        echo json_encode($this->ModPrincipal->createInformation());
     }
 }

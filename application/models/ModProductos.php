@@ -38,11 +38,11 @@ class ModProductos extends CI_Model
     }
 
 
-    private function getIDbySecureID($secureID)
+    public function getIDbySecureID($secureID)
     {
-        $this->db->select("id AS ifProducto", false);
+        $this->db->select("id AS idProducto", false);
         $this->db->where('secure_id', $secureID);
-        $consulta = $this->db->get("Productos");
+        $consulta = $this->db->get("productos");
         return $consulta->result_array();
     }
 
@@ -114,7 +114,7 @@ class ModProductos extends CI_Model
 
     public function consultProducto($id)
     {
-        $this->db->select("productos.id AS idProducto, descripcion, precio, seccion AS seccion, img AS imagen, status AS estado, notas", false);
+        $this->db->select("productos.id AS idProducto, productos.secure_id as secure, descripcion, precio, seccion AS seccion, concat('".base_url('assets/storage/products/')."',img) AS imagen, status AS estado, notas", false);
         $this->db->where("id", $id);
         $data = $this->db->get("productos");
         return $data->result_array();
